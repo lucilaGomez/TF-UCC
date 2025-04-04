@@ -15,7 +15,7 @@
 
 
 # Tecnologías
-Frontend:
+## Frontend:
 
 - Angular 16 (JavaScript) para la interfaz de usuario.
 
