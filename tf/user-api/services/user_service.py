@@ -1,53 +1,77 @@
 from sqlalchemy.orm import Session
-from uuid import UUID
 from fastapi import HTTPException, status
-
-# Importaciones relativas al paquete user-api
-from ..models.user import Usuario, TipoUsuario
-from ..schemas.user import UsuarioCreate
+from typing import List
+from ..models.user import User, Candidate
+from ..schemas.user import UserCreate, UserUpdate
 from ..utils.security import hash_password, verify_password
 
-def crear_usuario(db: Session, datos: UsuarioCreate) -> Usuario:
-    """
-    Crea un nuevo usuario si el email no está registrado.
-    """
-    existente = db.query(Usuario).filter(Usuario.email == datos.email).first()
-    if existente:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="El email ya está registrado"
-        )
+# Crear un nuevo usuario
+def create_user(db: Session, data: UserCreate) -> User:
+    existing_user = db.query(User).filter(User.email == data.email).first()
+    if existing_user:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email ya registrado")
 
-    nuevo_usuario = Usuario(
-        email=datos.email,
-        password_hash=hash_password(datos.password),  # Contraseña encriptada
-        tipo=datos.tipo
+    new_user = User(
+        email=data.email,
+        password_hash=hash_password(data.password),
+        user_type=data.user_type
     )
-    db.add(nuevo_usuario)
+    db.add(new_user)
     db.commit()
-    db.refresh(nuevo_usuario)
-    return nuevo_usuario
+    db.refresh(new_user)
 
-def autenticar_usuario(db: Session, email: str, password: str) -> Usuario:
-    """
-    Verifica si el usuario existe y si la contraseña es correcta.
-    """
-    usuario = db.query(Usuario).filter(Usuario.email == email).first()
-    if not usuario or not verify_password(password, usuario.password_hash):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Credenciales inválidas"
-        )
-    return usuario
+    # Crear registro en tabla Candidate si el usuario es tipo CANDIDATE
+    if data.user_type == "CANDIDATE":
+        create_candidate(db, new_user.email)
 
-def obtener_usuario_por_id(db: Session, usuario_id: UUID) -> Usuario:
-    """
-    Devuelve un usuario por ID o lanza 404 si no existe.
-    """
-    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
-    if not usuario:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Usuario no encontrado"
-        )
-    return usuario
+    return new_user
+
+# Crear registro de Candidate vacío
+def create_candidate(db: Session, user_email: str):
+    new_candidate = Candidate(email=user_email, cv_file=None)
+    db.add(new_candidate)
+    db.commit()
+    db.refresh(new_candidate)
+
+# Autenticación
+def authenticate_user(db: Session, email: str, password: str) -> User:
+    user = db.query(User).filter(User.email == email).first()
+    if not user or not verify_password(password, user.password_hash):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciales inválidas")
+    return user
+
+# Obtener todos los usuarios
+def list_users(db: Session) -> List[User]:
+    return db.query(User).all()
+
+# Obtener usuario por email
+def get_user_by_email_service(db: Session, email: str) -> User:
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    return user
+
+# Actualizar usuario
+def update_user_service(db: Session, email: str, user_update: UserUpdate) -> User:
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+    if user_update.email is not None:
+        user.email = user_update.email
+    if user_update.user_type is not None:
+        user.user_type = user_update.user_type
+    if user_update.password is not None:
+        user.password_hash = hash_password(user_update.password)
+
+    db.commit()
+    db.refresh(user)
+    return user
+
+# Eliminar usuario
+def delete_user_service(db: Session, email: str):
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    db.delete(user)
+    db.commit()

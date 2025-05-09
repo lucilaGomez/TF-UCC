@@ -1,28 +1,80 @@
-import uuid
 import enum
 from datetime import datetime
-from sqlalchemy import Column, String, Enum as SqlEnum, DateTime
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String, Enum as SqlEnum, DateTime, Integer, Float, Text, ForeignKey
+from sqlalchemy.orm import relationship
+from user_api.database.session import Base
 
-# Base para todos los modelos
-Base = declarative_base()
-
-# Enum de tipos de usuario — DEBE coincidir con el schema
-class TipoUsuario(str, enum.Enum):
+# ----- Enum para tipos de usuario -----
+class UserType(str, enum.Enum):
     ADMIN = "ADMIN"
-    EMPRESA = "EMPRESA"
-    CANDIDATO = "CANDIDATO"
+    COMPANY = "COMPANY"
+    CANDIDATE = "CANDIDATE"
 
-# Modelo de la tabla 'usuarios'
-class Usuario(Base):
-    __tablename__ = "usuarios"
+# ----- User -----
+class User(Base):
+    __tablename__ = "user"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    email = Column(String, unique=True, nullable=False)
+    email = Column(String, primary_key=True, index=True)
     password_hash = Column(String, nullable=False)
-    tipo = Column(SqlEnum(TipoUsuario), nullable=False)
+    user_type = Column(SqlEnum(UserType), nullable=False)
+    creation_date = Column(DateTime, default=datetime.utcnow)
+    update_date = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    # Agregado para que coincida con el schema
-    fecha_creacion = Column(DateTime, default=datetime.utcnow)
+# ----- Person -----
+class Person(Base):
+    __tablename__ = "person"
 
+    email = Column(String, primary_key=True)
+    first_name = Column(String)
+    last_name = Column(String)
+    gender = Column(String)
+    birth_date = Column(DateTime)
+    address = Column(String)
+
+    candidate = relationship("Candidate", back_populates="person")
+
+# ----- Candidate -----
+class Candidate(Base):
+    __tablename__ = "candidate"
+
+    email = Column(String, ForeignKey("person.email"), primary_key=True)
+    cv_file = Column(String)
+
+    person = relationship("Person", back_populates="candidate")
+    cv_analyzed = relationship("CVAnalyzed", uselist=False, back_populates="candidate")
+    applications = relationship("Application", back_populates="candidate")
+
+# ----- Company -----
+class Company(Base):
+    __tablename__ = "company"
+
+    company_email = Column(String, primary_key=True, index=True)
+    company_name = Column(String)
+    description = Column(Text)
+    address = Column(String)
+
+    recruiters = relationship("Recruiter", back_populates="company")
+
+# ----- Recruiter -----
+class Recruiter(Base):
+    __tablename__ = "recruiter"
+
+    email = Column(String, primary_key=True)
+    company_email = Column(String, ForeignKey("company.company_email"))
+
+    company = relationship("Company", back_populates="recruiters")
+
+# ----- Application -----
+class Application(Base):
+    __tablename__ = "application"
+
+    id_application = Column(Integer, primary_key=True, index=True)
+    email = Column(String, ForeignKey("candidate.email"))
+    id_job_opening = Column(Integer, ForeignKey("job_opening.id_job_opening"))
+
+    match_score = Column(Float)
+    status = Column(String)
+    application_date = Column(DateTime, default=datetime.utcnow)
+
+    candidate = relationship("Candidate", back_populates="applications")
+    job_offer = relationship("JobOffer", back_populates="applications")

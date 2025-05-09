@@ -1,52 +1,60 @@
 from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer
+from pydantic import EmailStr
 
-# Importaciones relativas que apuntan correctamente dentro del paquete user-api
-from ..schemas.user import UsuarioCreate, UsuarioResponse, LoginRequest, LoginResponse
-from ..services.user_service import crear_usuario, autenticar_usuario
+from ..schemas.user import (
+    UserCreate,
+    UserResponse,
+    LoginRequest,
+    LoginResponse,
+    UserListResponse,
+    UserUpdate,
+)
+from ..services.user_service import (
+    create_user,
+    authenticate_user,
+    list_users,
+    get_user_by_email_service,
+    update_user_service,
+    delete_user_service
+)
 from ..database.session import get_db
 from ..auth.jwt import create_access_token
 
-# Inicializamos el router de FastAPI para agrupar endpoints relacionados con "usuarios"
 router = APIRouter()
 
-# Endpoint para registro de usuarios
-@router.post("/register", response_model=UsuarioResponse, status_code=status.HTTP_201_CREATED)
-def registrar_usuario(usuario: UsuarioCreate, db: Session = Depends(get_db)):
-    """
-    Registra un nuevo usuario en la base de datos.
-    
-    - Recibe un esquema `UsuarioCreate` con los datos del nuevo usuario.
-    - Usa la dependencia `get_db()` para obtener la sesión de base de datos.
-    - Llama a la función `crear_usuario` del servicio para guardar el usuario.
-    - Devuelve un esquema `UsuarioResponse` con los datos del usuario registrado.
-    """
-    try:
-        return crear_usuario(db, usuario)
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(e)
-        )
+@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+def register_user(user: UserCreate, db: Session = Depends(get_db)):
+    user_db = create_user(db, user)
+    return user_db
 
-# Endpoint para login de usuarios
 @router.post("/login", response_model=LoginResponse)
-def login_usuario(usuario: LoginRequest, db: Session = Depends(get_db)):
-    """
-    Inicia sesión para un usuario y devuelve un token JWT.
-    
-    - Recibe un esquema `LoginRequest` con email y password.
-    - Usa `autenticar_usuario` para validar las credenciales.
-    - Si son válidas, crea y retorna un JWT con `create_access_token`.
-    - Si no lo son, devuelve un error 401 (no autorizado).
-    """
-    usuario_db = autenticar_usuario(db, usuario.email, usuario.password)
-    if not usuario_db:
+def login_user(user: LoginRequest, db: Session = Depends(get_db)):
+    user_db = authenticate_user(db, user.email, user.password)
+    if not user_db:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Credenciales inválidas"
         )
-    
-    token = create_access_token({"sub": str(usuario_db.id)})
+    token = create_access_token({"sub": user.email})
     return {"access_token": token, "token_type": "bearer"}
+
+@router.get("/users/", response_model=UserListResponse)
+def get_users(db: Session = Depends(get_db)):
+    users = list_users(db)
+    return {"users": users}
+
+@router.get("/users/{email}", response_model=UserResponse)
+def get_user_by_email(email: EmailStr, db: Session = Depends(get_db)):
+    user = get_user_by_email_service(db, email)
+    return user
+
+@router.put("/users/{email}", response_model=UserResponse)
+def update_user(email: EmailStr, user_update: UserUpdate, db: Session = Depends(get_db)):
+    return update_user_service(db, email, user_update)
+
+@router.delete("/users/{email}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_user(email: EmailStr, db: Session = Depends(get_db)):
+    delete_user_service(db, email)
+    return {"detail": "Usuario eliminado correctamente"}
