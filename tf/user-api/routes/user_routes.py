@@ -20,7 +20,7 @@ from ..services.user_service import (
     delete_user_service
 )
 from ..database.session import get_db
-from ..auth.jwt import create_access_token
+from ..auth.jwt import create_access_token, get_current_user
 
 router = APIRouter()
 
@@ -58,3 +58,10 @@ def update_user(email: EmailStr, user_update: UserUpdate, db: Session = Depends(
 def delete_user(email: EmailStr, db: Session = Depends(get_db)):
     delete_user_service(db, email)
     return {"detail": "Usuario eliminado correctamente"}
+
+@router.get("/me", response_model=UserResponse)
+def get_logged_in_user(current_user=Depends(get_current_user), db: Session = Depends(get_db)):
+    user = db.query(user).filter(user.email == current_user["sub"]).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    return user
