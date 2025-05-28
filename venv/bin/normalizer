@@ -1,4 +1,4 @@
-#!/Users/lucilagomez/Documents/Proyectos/TF-UCC/venv/bin/python3
+#!/Users/lucilagomez/Documents/Proyectos/TF-UCC/venv/bin/python3.10
 # -*- coding: utf-8 -*-
 import re
 import sys
