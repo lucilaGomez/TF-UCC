@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg bg-white px-5 py-3">
+  <div class="container-fluid">
+
+    <!-- Logo -->
+    <a class="navbar-brand" href="#">
+      <img src="assets/img/POLO52ROJO.png" alt="Polo 52" class="logo-img" />
+    </a>
+
+    <!-- Botón hamburguesa para mobile -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarContent"
+      aria-controls="navbarContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Menú -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+      <ul class="navbar-nav align-items-center custom-nav">
+        <li class="nav-item">
+          <a class="nav-link fw-semibold custom-link" href="#">Cómo Funciona</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold custom-link" href="#">Contáctanos</a>
+        </li>
+        <li class="nav-item">
+          <!-- ✅ Botón convertido en enlace Angular -->
+          <a class="btn custom-btn px-4 py-2" [routerLink]="['/login']">Ingresar</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

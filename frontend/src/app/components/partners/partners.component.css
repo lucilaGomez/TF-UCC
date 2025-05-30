@@ -1,0 +1,41 @@
+.partners-carousel {
+  overflow: hidden;
+  width: 100%;
+  background: white;
+  box-sizing: border-box;
+  margin-bottom: 120px;
+}
+
+.logos-wrapper {
+  display: flex;
+  width: max-content;
+  animation-name: scroll-logos;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: 60s;
+  will-change: transform;
+}
+
+.partner-logo {
+  width: 150px;
+  margin: 0 4rem;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.partner-logo:hover {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+@keyframes scroll-logos {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

@@ -1,0 +1,39 @@
+/* Tipografía Manrope */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap');
+
+:host {
+  font-family: 'Manrope', sans-serif;
+}
+
+.logo-img {
+  height: 75px;
+}
+
+/* Espaciado horizontal entre elementos */
+.custom-nav > .nav-item:not(:last-child) {
+  margin-right: 2rem; /* Ajustalo a tu gusto */
+}
+
+/* Color personalizado de links */
+.custom-link {
+  color: #A32930 !important;
+}
+
+.custom-link:hover {
+  text-decoration: underline;
+  color: #871e25 !important;
+}
+
+/* Botón personalizado */
+.custom-btn {
+  background-color: #A32930;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+}
+
+.custom-btn:hover {
+  background-color: #871e25;
+}

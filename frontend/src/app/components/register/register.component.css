@@ -1,0 +1,128 @@
+/* CONTENEDOR PRINCIPAL */
+.login-wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+  }
+  
+  /* SECCIÓN IZQUIERDA: IMAGEN (70%) */
+  .login-left {
+    width: 70%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .login-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* SECCIÓN DERECHA: FORMULARIO (30%) */
+  .login-right {
+    width: 30%;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+  }
+  
+  .login-right .logo {
+    width: 120px;
+    margin-bottom: 20px;
+  }
+  
+  .login-right h2 {
+    margin-bottom: 30px;
+  }
+  
+  .login-right form {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+  
+  button {
+    background-color: #b72c2c;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 15px;
+  }
+  
+  .options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85em;
+  }
+  
+  .options label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .google-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .google-login img {
+    width: 20px;
+    margin-right: 10px;
+  }
+  
+  .signup {
+    margin-top: 20px;
+    font-size: 0.9em;
+    text-align: center;
+  }
+  
+  /* RESPONSIVE: SOLO FORMULARIO EN MÓVILES */
+  @media (max-width: 768px) {
+    .login-wrapper {
+      flex-direction: column;
+    }
+  
+    .login-left {
+      display: none !important;
+    }
+  
+    .login-right {
+      width: 100%;
+      height: 100vh;
+      padding: 40px 20px;
+      box-sizing: border-box;
+    }
+  
+    .login-right form {
+      max-width: 100%;
+    }
+  }
+  

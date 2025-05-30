@@ -1,0 +1,61 @@
+.features-section {
+    padding: 20px 40px;
+    margin-top: 120px;
+    margin-bottom: 90px;
+    display: flex;
+    justify-content: space-between; /* O flex-start si preferís */
+    gap: 15px; /* Espacio moderado entre cards */
+    padding: 20px;
+    flex-wrap: wrap;
+    max-width: 100vw;
+    box-sizing: border-box;
+    margin-top: 40px; /* Espacio arriba para separar del componente superior */
+  }
+  
+  .feature-card {
+    background: white;
+    box-shadow: 0 4px 8px rgb(238 192 192 / 0.3);
+    border-radius: 12px;
+    padding: 30px 25px;
+    flex: 1 1 22%;  /* Para que cada card ocupe aprox 22% del ancho */
+    max-width: 24%;
+    min-width: 220px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .feature-card .icon {
+    margin: 0 auto 15px auto;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8e7e7;
+    border-radius: 8px;
+    /* No usar color para img */
+  }
+  
+  .feature-card .icon img {
+    width: 40px;  /* Tamaño del logo */
+    height: 40px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .feature-card h3 {
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #2b2b2b;
+  }
+  
+  .feature-card p {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #6c6c6c;
+    margin: 0;
+  }
+  

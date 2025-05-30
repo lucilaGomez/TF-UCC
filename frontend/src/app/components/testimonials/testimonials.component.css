@@ -1,0 +1,118 @@
+.testimonials-container {
+  margin: 5px auto 0 auto;
+  max-width: 1000px;
+  text-align: center;
+  font-family: Manrope, sans-serif;
+  padding: 20px;
+}
+
+.testimonials-container h2 {
+  margin-bottom: 30px;
+  font-weight: 600;
+  font-size: 1.8rem;
+  max-width: 960px;     /* Alinea el título con el carrusel */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.carousel-wrapper {
+  width: 100%;
+  max-width: 960px;    /* Asegura que el carrusel tenga el mismo ancho que el título */
+  overflow: visible;   
+  margin: 0 auto 20px auto;
+  height: auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.full-carousel {
+  margin-top: 50px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Estilo general para las cards */
+.testimonial-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+/* Card grande (central) */
+.large-card {
+  width: 380px;
+  height: 280px;
+}
+
+/* Cards pequeñas (laterales) */
+.small-card {
+  width: 320px;
+  height: 240px;
+  opacity: 0.8;
+  transform: scale(0.9);
+}
+
+.testimonial-card .header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.testimonial-card img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info {
+  text-align: left;
+  flex-grow: 1;
+}
+
+.user-info strong {
+  display: block;
+  font-weight: 700;
+}
+
+.user-info small {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.stars {
+  color: orange;
+  font-size: 1.2rem;
+}
+
+.stars span {
+  color: lightgray;
+}
+
+.stars span.filled {
+  color: orange;
+}
+
+.text {
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.text-description {
+  font-size: 0.85rem;
+  color: #333;
+  text-align: center;
+}

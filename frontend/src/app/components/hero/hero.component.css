@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap');
+
+:host {
+  font-family: 'Manrope', sans-serif;
+  color: #333333;
+}
+
+/* Título con tipografía y peso */
+.hero-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  color: #333333;
+}
+
+/* Texto resaltado en color personalizado */
+.text-highlight {
+  color: #A32930;
+}
+
+/* Subtítulo más suave */
+.hero-subtitle {
+  font-family: 'Manrope', sans-serif;
+  color: #666666;
+  max-width: 450px;
+}
+
+/* Botón rojo personalizado */
+.hero-btn {
+  background-color: #A32930;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.hero-btn:hover {
+  background-color: #871e25;
+}
+
+/* Contenedor para centrar imagen */
+.hero-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Imagen con tamaño controlado */
+.hero-image {
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+  object-fit: contain;
+}

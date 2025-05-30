@@ -1,0 +1,30 @@
+<div class="testimonials-container">
+  <h2>Lo que opinan nuestros usuarios</h2>
+
+  <link href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" rel="stylesheet" />
+
+  <div class="carousel-wrapper">
+    <div class="full-carousel">
+      <div 
+        class="testimonial-card" 
+        *ngFor="let t of visibleTestimonials; let i = index"
+        [ngClass]="{'small-card': i !== 1, 'large-card': i === 1}"
+      >
+        <div class="header">
+          <img [src]="t.image" alt="{{ t.name }}" />
+          <div class="user-info">
+            <strong>{{ t.name }}</strong>
+            <small>{{ t.role }}</small>
+          </div>
+          <div class="stars">
+            <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+              <span [class.filled]="star <= t.rating">&#9733;</span>
+            </ng-container>
+          </div>
+        </div>
+        <p class="text"><strong>{{ t.text.split('.')[0] + '.' }}</strong></p>
+        <p class="text-description">{{ t.text.split('.').slice(1).join('.') }}</p>
+      </div>
+    </div>
+  </div>
+</div>

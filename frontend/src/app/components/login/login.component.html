@@ -1,0 +1,35 @@
+<div class="login-wrapper">
+    <div class="login-left">
+      <img src="assets/img/sign-in-bg.jpg" alt="Imagen login" />
+    </div>
+  
+    <div class="login-right">
+      <a routerLink="/">
+        <img src="assets/img/POLO52ROJO.png" alt="Polo 52" class="logo" />
+      </a>
+      <h2>Nice to see you again</h2>
+  
+      <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+        <input formControlName="email" type="email" placeholder="Email or phone number" />
+        <input formControlName="password" type="password" placeholder="Enter password" />
+  
+        <div class="options">
+          <label><input type="checkbox" formControlName="remember" /> Remember me</label>
+          <a href="#">Forgot password?</a>
+        </div>
+  
+        <button type="submit">Iniciar sesión</button>
+  
+        <div class="google-login" (click)="loginWithGoogle()">
+          <img src="assets/icons/google.png" alt="Google" />
+          Or sign in with Google
+        </div>
+  
+        <p class="signup">
+          Don’t have an account?
+          <a routerLink="/register">Sign up now</a>
+        </p>
+      </form>
+    </div>
+  </div>
+  

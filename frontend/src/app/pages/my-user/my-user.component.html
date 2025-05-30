@@ -1,0 +1,60 @@
+<div class="my-user-container">
+    <h2>Perfil de Usuario</h2>
+  
+    <div class="profile-image-wrapper" (click)="triggerFileInput()">
+      <img *ngIf="profileImageUrl; else placeholder" [src]="profileImageUrl" alt="Foto de perfil" />
+      <ng-template #placeholder>
+        <div class="empty-photo">Sin foto</div>
+      </ng-template>
+      <input type="file" (change)="onPhotoSelected($event)" accept="image/*" #photoInput hidden />
+    </div>
+  
+    <div class="switch-section">
+      <label class="switch">
+        <input type="checkbox" [checked]="isLookingForJob" (change)="toggleJobStatus()" />
+        <span class="slider round"></span>
+      </label>
+      <span class="switch-label">Buscando trabajo</span>
+    </div>
+  
+    <div class="user-data">
+      <div *ngIf="!isEditing">
+        <p><strong>Nombre:</strong> {{ user.firstName }}</p>
+        <p><strong>Apellido:</strong> {{ user.lastName }}</p>
+        <p><strong>Género:</strong> {{ user.gender }}</p>
+        <p><strong>Fecha de nacimiento:</strong> {{ user.birthDate }}</p>
+      </div>
+  
+      <div *ngIf="isEditing" class="form-edit">
+        <label>Nombre: <input [(ngModel)]="tempUser.firstName" /></label>
+        <label>Apellido: <input [(ngModel)]="tempUser.lastName" /></label>
+        <label>Género: 
+          <select [(ngModel)]="tempUser.gender">
+            <option>Masculino</option>
+            <option>Femenino</option>
+            <option>Otro</option>
+          </select>
+        </label>
+        <label>Fecha de nacimiento: <input type="date" [(ngModel)]="tempUser.birthDate" /></label>
+      </div>
+    </div>
+  
+    <div class="cv-section">
+      <p><strong>Currículum:</strong></p>
+      <p class="cv-filename">
+        {{ isEditing ? tempCvFileName : user.cvFileName }}
+      </p>
+  
+      <button *ngIf="isEditing" class="cv-btn" (click)="triggerCvUpload()">Cambiar CV</button>
+      <input type="file" accept="application/pdf" #cvInput (change)="onCvSelected($event)" hidden />
+    </div>
+  
+    <div class="edit-buttons">
+      <button *ngIf="!isEditing" (click)="enableEdit()">Editar</button>
+      <div *ngIf="isEditing">
+        <button (click)="saveChanges()">Guardar Cambios</button>
+        <button (click)="discardChanges()">Descartar Cambios</button>
+      </div>
+    </div>
+  </div>
+  

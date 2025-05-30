@@ -1,0 +1,80 @@
+.footer {
+    margin-top: 60px;
+    background-color: #A32930; /* color granate */
+    color: white;
+    padding: 80px 40px; /* footer alto */
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    /* text-align: left;  /* o eliminar esta línea si existe text-align: center */
+  }
+  
+  .footer-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer-logo img {
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 20px;
+  }
+  
+  .footer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 120px;
+    /* Quitar centrado horizontal para textos */
+    align-items: flex-start;
+  }
+  
+  .footer-section h4 {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #E57373;
+  }
+  
+  .footer-section p,
+  .footer-section a {
+    color: white;
+    text-decoration: none;
+    line-height: 1.1;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .footer-section a:hover {
+    text-decoration: underline;
+  }
+  
+  .redes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    /* Quitar centrado para enlaces */
+    align-items: flex-start;
+  }
+  
+  .redes-list li {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .redes-list a {
+    color: white;
+    text-decoration: none;
+    line-height: 1.1;
+  }
+  
+  .redes-list a:hover {
+    text-decoration: underline;
+  }
+  
