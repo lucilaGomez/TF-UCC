@@ -3,6 +3,9 @@ from dotenv import load_dotenv
 from pathlib import Path
 import sys
 
+# Para CORS
+from fastapi.middleware.cors import CORSMiddleware
+
 # === PATHS para imports locales ===
 base_path = Path(__file__).resolve().parent
 sys.path.append(str(base_path / "cv_analyzer_api"))
@@ -16,6 +19,19 @@ load_dotenv(dotenv_path=dotenv_path)
 
 # === Inicializar app ===
 app = FastAPI(title="Plataforma Inteligente de Trabajo")
+
+# Configuración CORS para conectar con Angular (puerto 4200)
+origins = [
+    "http://localhost:4200",  # URL típica para dev Angular
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,       # Permitir solo frontend Angular
+    allow_credentials=True,
+    allow_methods=["*"],         # Permitir todos los métodos HTTP
+    allow_headers=["*"],         # Permitir todos los headers
+)
 
 # === Importar modelos para registrar relaciones ===
 import tf.user_api.models.user           # Application, Candidate, etc.
@@ -32,7 +48,6 @@ with engine.connect() as conn:
 
 # Crear nuevamente todas las tablas
 Base.metadata.create_all(bind=engine)
-
 
 # === Routers ===
 from tf.cv_analyzer_api.routes.cv_analyzer_routes import router as cv_analyzer_router
